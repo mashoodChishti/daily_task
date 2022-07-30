@@ -1,4 +1,6 @@
+import 'package:daily_task/page/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -153,6 +155,7 @@ class _OnBoardingScreen1State extends State<OnBoardingScreen1> {
                   onPressed: () async {
                     final pref = await SharedPreferences.getInstance();
                     pref.setBool('showHome', true);
+                    Get.to(() => const HomePage());
                   },
                   style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(

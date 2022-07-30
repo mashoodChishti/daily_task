@@ -1,49 +1,53 @@
 import 'package:flutter/material.dart';
 
-class CustomRadioWidget<T> extends StatelessWidget {
+class CustomRadioWidget<T> extends StatefulWidget {
   final T value;
   final T groupValue;
   final ValueChanged<T> onChanged;
-  final double width;
-  final double height;
+
   final LinearGradient? gradient;
 
-  const CustomRadioWidget(
-      {Key? key,
-      required this.value,
-      required this.groupValue,
-      required this.onChanged,
-      required this.gradient,
-      this.width = 32,
-      this.height = 32})
-      : super(key: key);
+  const CustomRadioWidget({
+    Key? key,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+    required this.gradient,
+  }) : super(key: key);
 
   @override
+  State<CustomRadioWidget<T>> createState() => _CustomRadioWidgetState<T>();
+}
+
+class _CustomRadioWidgetState<T> extends State<CustomRadioWidget<T>> {
+  @override
   Widget build(BuildContext context) {
+    bool isSelected = widget.value == widget.groupValue;
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
-          onChanged(value);
+          setState(() {
+            widget.onChanged(widget.value);
+          });
         },
         child: Container(
-          height: height,
-          width: width,
-          decoration: const ShapeDecoration(
-            shape: CircleBorder(),
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF49EF3E),
-                Color(0xFF06D89A),
-              ],
+          decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(
+                color: isSelected ? Colors.blue : Colors.transparent,
+                width: 3,
+              ),
             ),
+            gradient: widget.gradient,
           ),
           child: Center(
             child: Container(
-              height: height - 8,
-              width: width - 8,
+              height: 50,
+              width: 50,
               decoration: ShapeDecoration(
-                  shape: const CircleBorder(), gradient: gradient),
+                  shape: const CircleBorder(), gradient: widget.gradient),
             ),
           ),
         ),

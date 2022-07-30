@@ -1,47 +1,53 @@
+import 'package:daily_task/page/category/bottom_sheet.dart';
 import 'package:daily_task/page/taskDetail/task_detail_page.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_color_pallete.dart';
-import 'package:daily_task/widgets/categoryListingWidgets/category_colour_radio_buttons.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_listing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({Key? key}) : super(key: key);
+  final List<CategoryTile>? list;
+
+  const CategoryPage({
+    Key? key,
+    this.list,
+  }) : super(key: key);
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
 }
 
+List<CategoryTile> list = [
+  CategoryTile(
+    title: "Today",
+    color: Colors.blue,
+    gradient: blueGradient,
+    onTap: () {
+      Get.to(() => const TaskdetailWidget());
+    },
+    description: "Today's tasks",
+  ),
+  CategoryTile(
+    title: "Tomorrow",
+    color: Colors.purple,
+    gradient: purpleGradient,
+    onTap: () {
+      Get.to(() => const TaskdetailWidget());
+    },
+    description: "Tomorrow's tasks",
+  ),
+  CategoryTile(
+    title: "Next Week",
+    color: Colors.red,
+    gradient: redGradient,
+    onTap: () {
+      Get.to(() => const TaskdetailWidget());
+    },
+    description: "Next week's tasks",
+  ),
+];
+
 class _CategoryPageState extends State<CategoryPage> {
-  List<CategoryTile> list = [
-    CategoryTile(
-      title: "Today",
-      color: Colors.blue,
-      gradient: blueGradient,
-      onTap: () {
-        Get.to(() => const TaskdetailWidget());
-      },
-      description: "Today's tasks",
-    ),
-    CategoryTile(
-      title: "Tomorrow",
-      color: Colors.purple,
-      gradient: purpleGraient,
-      onTap: () {
-        Get.to(() => const TaskdetailWidget());
-      },
-      description: "Tomorrow's tasks",
-    ),
-    CategoryTile(
-      title: "Next Week",
-      color: Colors.red,
-      gradient: redGradient,
-      onTap: () {
-        Get.to(() => const TaskdetailWidget());
-      },
-      description: "Next week's tasks",
-    ),
-  ];
   addCategory() {
     list.add(CategoryTile(
       title: "Next Week",
@@ -130,7 +136,7 @@ class _CategoryPageState extends State<CategoryPage> {
                           (states) => const Color.fromRGBO(82, 204, 255, 1)),
                       backgroundColor:
                           MaterialStateProperty.all(const Color(0xff2D35A2))),
-                  onPressed: () => {_showModalBottomSheet()},
+                  onPressed: () => {_showModalBottomSheet(list)},
                   child: const Text('Create Category',
                       style: TextStyle(color: Colors.white, fontSize: 16))),
             )
@@ -140,8 +146,9 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  _showModalBottomSheet() {
+  _showModalBottomSheet(List<CategoryTile> list) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -149,73 +156,8 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
       ),
       builder: (context) {
-        Color _color = Colors.red;
-        return Container(
-          height: 300,
-          alignment: Alignment.center,
-          color: Colors.white,
-          child: Center(
-              child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "Category Name",
-                  labelStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: "Category Description",
-                  labelStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text("Category Colour",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  )),
-              Row(
-                children: [
-                  CustomRadioWidget<Color>(
-                    value: Colors.red,
-                    groupValue: _color,
-                    onChanged: (value) => setState(() {
-                      _color = value;
-                    }),
-                    gradient: redGradient,
-                  ),
-                  CustomRadioWidget<Color>(
-                    value: Colors.blue,
-                    groupValue: _color,
-                    onChanged: (value) => setState(() {
-                      _color = value;
-                    }),
-                    gradient: blueGradient,
-                  ),
-                ],
-              ),
-            ],
-          )),
+        return BottomSheetCustom(
+          list: list,
         );
       },
     );

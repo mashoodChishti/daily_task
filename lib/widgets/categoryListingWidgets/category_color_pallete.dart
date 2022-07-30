@@ -7,7 +7,7 @@ const blueGradient = LinearGradient(colors: <Color>[
   0.4,
   0.6
 ], begin: Alignment.topRight, end: Alignment.bottomLeft);
-const purpleGraient = LinearGradient(
+const purpleGradient = LinearGradient(
     colors: <Color>[Color(0xFF882DEB), Color(0xFF9A4DFF)],
     stops: <double>[0.5, 0.7],
     begin: Alignment.topLeft,
