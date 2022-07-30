@@ -51,7 +51,7 @@ class _DashboardActivitiesSectionWidgetState
                         splashColor: Colors.red,
                         highlightColor: Colors.yellow,
                         onTap: () {
-                          Get.to(const CategoryPage());
+                          Get.to(() => const CategoryPage());
                         },
                         child: const Text('See all',
                             style: TextStyle(

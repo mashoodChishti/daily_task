@@ -1,75 +1,32 @@
-import 'package:daily_task/page/taskDetail/task_detail_page.dart';
+import 'package:daily_task/page/category/category_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// QuickActions represents the horizontal list of rectangular buttons below the header
-class CategoryListingWidget extends StatelessWidget {
-  const CategoryListingWidget({Key? key}) : super(key: key);
 
+class CategoryListingWidget extends StatelessWidget {
+  const CategoryListingWidget({Key? key, required this.list}) : super(key: key);
+  final List<CategoryTile> list;
   @override
   Widget build(BuildContext context) {
-    const blueGradient = LinearGradient(colors: <Color>[
-      Color(0xFF0075D1),
-      Color(0xFF00A2E3),
-    ], stops: <double>[
-      0.4,
-      0.6
-    ], begin: Alignment.topRight, end: Alignment.bottomLeft);
-    const purpleGraient = LinearGradient(
-        colors: <Color>[Color(0xFF882DEB), Color(0xFF9A4DFF)],
-        stops: <double>[0.5, 0.7],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight);
-    const redGradient = LinearGradient(colors: <Color>[
-      Color(0xFFBA110E),
-      Color(0xFFCF3110),
-    ], stops: <double>[
-      0.6,
-      0.8
-    ], begin: Alignment.bottomRight, end: Alignment.topLeft);
-
     return Container(
       constraints: const BoxConstraints(maxHeight: 90.0),
-      child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(
-              left: 0.0, bottom: 20.0, right: 0.0, top: 10.0),
-          scrollDirection: Axis.vertical,
-          children: <Widget>[
-            _buildAction("Landing Page", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.blue, blueGradient,
-                const AssetImage("assets/images/microphone.png")),
-            _buildAction("Mobile App", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.purple, purpleGraient,
-                const AssetImage("assets/images/wallet.png")),
-            _buildAction("Logo Design", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.red, redGradient,
-                const AssetImage("assets/images/joystick.png")),
-            _buildAction("Landing Page", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.blue, blueGradient,
-                const AssetImage("assets/images/microphone.png")),
-            _buildAction("Mobile App", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.purple, purpleGraient,
-                const AssetImage("assets/images/wallet.png")),
-            _buildAction("Logo Design", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.red, redGradient,
-                const AssetImage("assets/images/joystick.png")),
-            _buildAction("Mobile App", () {
-              Get.to(const TaskdetailWidget());
-            }, Colors.purple, purpleGraient,
-                const AssetImage("assets/images/wallet.png")),
-          ]),
+      child: ListView.separated(
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(
+            left: 0.0, bottom: 20.0, right: 0.0, top: 10.0),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, i) {
+          return _buildAction(list[i].title!, list[i].onTap!, list[i].color!,
+              list[i].gradient!, list[i].description!);
+        },
+        separatorBuilder: (context, i) => const SizedBox(height: 10.0),
+        itemCount: list.length,
+      ),
     );
   }
 
   Widget _buildAction(String title, VoidCallback action, Color color,
-      Gradient gradient, ImageProvider backgroundImage) {
+      Gradient gradient, String? description) {
     const textStyle = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w600,
@@ -100,14 +57,25 @@ class CategoryListingWidget extends StatelessWidget {
                     margin: const EdgeInsets.only(left: 20, top: 20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      color: const Color(0xff2D35A2),
+                      color: color,
                     ),
-                    child: const Text(''),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(left: 10.0, top: 18),
-                    child: Text(title,
-                        style: textStyle.copyWith(color: Colors.black)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, top: 18),
+                        child: Text(title,
+                            style: textStyle.copyWith(color: Colors.black)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, top: 10),
+                        child: Text(description!,
+                            style: textStyle.copyWith(
+                                color: const Color.fromRGBO(183, 183, 183, 1),
+                                fontSize: 10)),
+                      ),
+                    ],
                   ),
                   // Container(
                   //   alignment: Alignment.bottomLeft,

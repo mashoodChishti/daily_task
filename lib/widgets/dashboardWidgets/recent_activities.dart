@@ -115,7 +115,7 @@ class RecentActivities extends StatelessWidget {
             Container(
               alignment: Alignment.bottomLeft,
               padding: const EdgeInsets.only(top: 65, left: 10),
-              child: Text('09:00 AM',
+              child: const Text('09:00 AM',
                   style: TextStyle(fontSize: 12, color: Colors.white)),
             ),
           ],
