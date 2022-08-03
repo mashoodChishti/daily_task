@@ -1,5 +1,7 @@
 import 'package:daily_task/page/category/category_page.dart';
+import 'package:daily_task/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// QuickActions represents the horizontal list of rectangular buttons below the header
 
@@ -8,6 +10,7 @@ class CategoryListingWidget extends StatelessWidget {
   final List<CategoryTile> list;
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return Container(
       constraints: const BoxConstraints(maxHeight: 90.0),
       child: ListView.separated(
@@ -17,7 +20,7 @@ class CategoryListingWidget extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemBuilder: (context, i) {
           return _buildAction(list[i].title!, list[i].onTap!, list[i].color!,
-              list[i].gradient!, list[i].description!);
+              list[i].gradient!, list[i].description!, themeMode);
         },
         separatorBuilder: (context, i) => const SizedBox(height: 10.0),
         itemCount: list.length,
@@ -26,7 +29,7 @@ class CategoryListingWidget extends StatelessWidget {
   }
 
   Widget _buildAction(String title, VoidCallback action, Color color,
-      Gradient gradient, String? description) {
+      Gradient gradient, String? description, ThemeMode themeMode) {
     const textStyle = TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.w600,
@@ -39,8 +42,10 @@ class CategoryListingWidget extends StatelessWidget {
       },
       child: Card(
         elevation: 20,
-        shadowColor: Colors.white30,
-        color: Colors.white,
+        shadowColor:
+            themeMode == ThemeMode.dark ? Colors.grey.shade600 : Colors.white30,
+        color:
+            themeMode == ThemeMode.dark ? Colors.grey.shade900 : Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: SizedBox(
           width: double.infinity,
@@ -66,7 +71,10 @@ class CategoryListingWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0, top: 18),
                         child: Text(title,
-                            style: textStyle.copyWith(color: Colors.black)),
+                            style: textStyle.copyWith(
+                                color: themeMode == ThemeMode.dark
+                                    ? Colors.white
+                                    : Colors.black)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10.0, top: 10),
@@ -232,6 +240,7 @@ class CategoryListingWidget extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _BackgroundImageClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

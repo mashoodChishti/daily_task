@@ -129,6 +129,7 @@ class QuickActions extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _BackgroundImageClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

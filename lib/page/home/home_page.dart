@@ -1,6 +1,8 @@
+import 'package:daily_task/provider/theme_provider.dart';
 import 'package:daily_task/widgets/buttonWidgets/change_theme_button_widget.dart';
 import 'package:daily_task/widgets/dashboardWidgets/dashboard_activities_section_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,10 +14,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     int counter = 3;
     return Scaffold(
       appBar: AppBar(
-        iconTheme: Theme.of(context).iconTheme,
+        iconTheme: themeMode == ThemeMode.dark
+            ? const IconThemeData(color: Colors.white)
+            : const IconThemeData(color: Color(0xff52CCFF)),
         backgroundColor: Colors.transparent,
         leading: const Icon(Icons.menu_rounded),
         elevation: 0,
@@ -112,12 +117,16 @@ class _HomePageState extends State<HomePage> {
                   prefixIcon: Icon(
                     Icons.search,
                     size: 30,
-                    color: Theme.of(context).iconTheme.color,
+                    color: themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : const Color(0xff52CCFF),
                   ),
                   suffixIcon: Icon(
                     Icons.mic,
                     size: 30,
-                    color: Theme.of(context).iconTheme.color,
+                    color: themeMode == ThemeMode.dark
+                        ? Colors.white
+                        : const Color(0xff52CCFF),
                   ),
                   hintText: 'Search',
                   hintStyle: TextStyle(color: Theme.of(context).hintColor),

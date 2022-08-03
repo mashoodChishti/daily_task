@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/theme_provider.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
@@ -19,6 +22,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return AppBar(
       leading: IconButton(
         icon: Icon(Icons.arrow_back_ios_new, color: itemsColor),
@@ -33,7 +37,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         titleText,
         textAlign: TextAlign.left,
         style: TextStyle(
-            color: itemsColor,
+            color: themeMode == ThemeMode.dark
+                ? Colors.white
+                : const Color(0xff2D35A2),
             fontFamily: 'Nunito',
             fontSize: 24,
             letterSpacing:

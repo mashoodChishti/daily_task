@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BottomSheetCustom extends StatefulWidget {
-  const BottomSheetCustom({Key? key, required this.list}) : super(key: key);
+  const BottomSheetCustom(
+      {Key? key, required this.list, this.ctx, required this.onChanged})
+      : super(key: key);
   final List<CategoryTile>? list;
+  final BuildContext? ctx;
+  final ValueChanged<List<CategoryTile>> onChanged;
 
   @override
   State<BottomSheetCustom> createState() => _BottomSheetState();
@@ -116,11 +120,15 @@ class _BottomSheetState extends State<BottomSheetCustom> {
                     color: getColor(color),
                     gradient: getGradient(color),
                     onTap: () {
-                      Get.to(() => const TaskdetailWidget());
+                      Get.to(() => TaskdetailWidget(
+                            title: catName!,
+                            description: catDescription!,
+                          ));
                     },
                     description: catDescription,
                   ));
-                  Get.to(() => CategoryPage(list: list));
+                  Get.back();
+                  widget.onChanged(list);
                 },
                 child: const Text("Add Category"),
               ),

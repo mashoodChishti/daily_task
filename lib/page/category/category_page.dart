@@ -1,9 +1,11 @@
 import 'package:daily_task/page/category/bottom_sheet.dart';
 import 'package:daily_task/page/taskDetail/task_detail_page.dart';
+import 'package:daily_task/provider/theme_provider.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_color_pallete.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_listing_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class CategoryPage extends StatefulWidget {
   final List<CategoryTile>? list;
@@ -23,7 +25,10 @@ List<CategoryTile> list = [
     color: Colors.blue,
     gradient: blueGradient,
     onTap: () {
-      Get.to(() => const TaskdetailWidget());
+      Get.to(() => const TaskdetailWidget(
+            title: "today",
+            description: "Today's tasks",
+          ));
     },
     description: "Today's tasks",
   ),
@@ -32,7 +37,10 @@ List<CategoryTile> list = [
     color: Colors.purple,
     gradient: purpleGradient,
     onTap: () {
-      Get.to(() => const TaskdetailWidget());
+      Get.to(() => const TaskdetailWidget(
+            title: "Tommorow",
+            description: "Tommorow's tasks",
+          ));
     },
     description: "Tomorrow's tasks",
   ),
@@ -41,43 +49,57 @@ List<CategoryTile> list = [
     color: Colors.red,
     gradient: redGradient,
     onTap: () {
-      Get.to(() => const TaskdetailWidget());
+      Get.to(() => const TaskdetailWidget(
+            title: 'Next Week',
+            description: "Next week's tasks",
+          ));
     },
     description: "Next week's tasks",
   ),
 ];
 
 class _CategoryPageState extends State<CategoryPage> {
-  addCategory() {
-    list.add(CategoryTile(
-      title: "Next Week",
-      color: Colors.red,
-      gradient: redGradient,
-      onTap: () {
-        Get.to(() => const TaskdetailWidget());
-      },
-      description: "Next week's tasks",
-    ));
+  void _update(List<CategoryTile> newValue) {
+    setState(() => list = newValue);
   }
+
+  // addCategory() {
+  //   list.add(CategoryTile(
+  //     title: "Next Week",
+  //     color: Colors.red,
+  //     gradient: redGradient,
+  //     onTap: () {
+  //       Get.to(() => const TaskdetailWidget());
+  //     },
+  //     description: "Next week's tasks",
+  //   ));
+  // }
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).canvasColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Center(
+        backgroundColor: Theme.of(context).canvasColor,
+        title: Center(
           child: Text(
             'Categories',
             style: TextStyle(
               letterSpacing: 1.0,
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Color(0xff2D35A2),
+              color: themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : const Color(0xff2D35A2),
             ),
           ),
         ),
-        iconTheme: Theme.of(context).iconTheme,
+        iconTheme: IconThemeData(
+          color: themeMode == ThemeMode.dark
+              ? Colors.white
+              : const Color(0xff2D35A2),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
           onPressed: () {
@@ -117,26 +139,29 @@ class _CategoryPageState extends State<CategoryPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-                child: CategoryListingWidget(
-              list: list,
-            )),
+              child: CategoryListingWidget(
+                list: list,
+              ),
+            ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
               width: MediaQuery.of(context).size.width,
               child: TextButton(
                   style: ButtonStyle(
-                      minimumSize:
-                          MaterialStateProperty.all(const Size(140, 51)),
-                      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-                          (_) {
-                        return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14));
-                      }),
-                      overlayColor: MaterialStateColor.resolveWith(
-                          (states) => const Color.fromRGBO(82, 204, 255, 1)),
-                      backgroundColor:
-                          MaterialStateProperty.all(const Color(0xff2D35A2))),
-                  onPressed: () => {_showModalBottomSheet(list)},
+                    minimumSize: MaterialStateProperty.all(const Size(140, 51)),
+                    shape:
+                        MaterialStateProperty.resolveWith<OutlinedBorder>((_) {
+                      return RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14));
+                    }),
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => const Color.fromRGBO(82, 204, 255, 1)),
+                    backgroundColor: MaterialStateProperty.all(
+                        themeMode == ThemeMode.dark
+                            ? Colors.grey.shade900
+                            : const Color(0xff2D35A2)),
+                  ),
+                  onPressed: () => {_showModalBottomSheet(list, _update)},
                   child: const Text('Create Category',
                       style: TextStyle(color: Colors.white, fontSize: 16))),
             )
@@ -146,7 +171,7 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  _showModalBottomSheet(List<CategoryTile> list) {
+  _showModalBottomSheet(List<CategoryTile> list, Function update) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -155,9 +180,11 @@ class _CategoryPageState extends State<CategoryPage> {
           top: Radius.circular(150),
         ),
       ),
-      builder: (context) {
+      builder: (ctx) {
         return BottomSheetCustom(
           list: list,
+          ctx: ctx,
+          onChanged: _update,
         );
       },
     );

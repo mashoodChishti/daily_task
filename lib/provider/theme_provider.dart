@@ -16,7 +16,7 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor: Colors.white,
     colorScheme: const ColorScheme.dark(),
-    iconTheme: IconThemeData(color: Colors.purple.shade200, opacity: 0.8),
+    iconTheme: IconThemeData(color: Colors.grey.shade900, opacity: 1),
     hintColor: Colors.grey.shade200,
     textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.white),
   )..addOwn(const OwnThemeFields(textColor: Colors.white));
