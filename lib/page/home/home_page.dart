@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
     ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     int counter = 3;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: themeMode == ThemeMode.dark
             ? const IconThemeData(color: Colors.white)

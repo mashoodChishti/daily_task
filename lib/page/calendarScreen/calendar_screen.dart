@@ -17,13 +17,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
     ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return Scaffold(
       appBar: AppBarWidget(
-          itemsColor:
-              (themeMode == ThemeMode.dark) ? Colors.white : Colors.white,
-          titleText: "Calendar",
-          buttonItemsColor: (themeMode == ThemeMode.dark)
-              ? const Color.fromRGBO(45, 53, 162, 1)
-              : const Color.fromRGBO(45, 53, 162, 1),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+        itemsColor: (themeMode == ThemeMode.dark) ? Colors.white : Colors.white,
+        titleText: "Calendar",
+        buttonItemsColor: (themeMode == ThemeMode.dark)
+            ? const Color.fromRGBO(45, 53, 162, 1)
+            : const Color.fromRGBO(45, 53, 162, 1),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        action: () {},
+      ),
     );
   }
 }

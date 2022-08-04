@@ -1,193 +1,206 @@
-import 'package:daily_task/widgets/todayTaskWidgets/task_tile.dart';
+import 'package:daily_task/page/todayTask/today_screen.dart';
+import 'package:daily_task/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TodayTaskPage extends StatefulWidget {
-  const TodayTaskPage({Key? key}) : super(key: key);
+  final bool? isGridView;
+  const TodayTaskPage({Key? key, this.isGridView = false}) : super(key: key);
 
   @override
   State<TodayTaskPage> createState() => _TodayTaskPageState();
 }
 
+PageController controllerListView = PageController(viewportFraction: 1 / 5);
+
 class _TodayTaskPageState extends State<TodayTaskPage> {
-  var data = [
-    {
-      "mainText": "Mobile app prototype",
-      "bottomText": "Make mobile app\nuntil prototype"
-    },
-    {
-      "mainText": "Medical Dashboard",
-      "bottomText": "Make medical\nwith source file"
-    },
-    {
-      "mainText": "Landing page with responsive",
-      "bottomText": "Landing page size macbook\nand responsive"
-    },
-    {
-      "mainText": "Mobile app prototype",
-      "bottomText": "Make mobile app\nuntil prototype"
-    }
-  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Color.fromRGBO(45, 53, 162, 1),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Today Task',
-          textAlign: TextAlign.left,
-          style: TextStyle(
-              color: Color.fromRGBO(45, 53, 162, 1),
-              fontFamily: 'Nunito',
-              fontSize: 24,
-              letterSpacing:
-                  0 /*percentages not used in flutter. defaulting to zero*/,
-              fontWeight: FontWeight.w600,
-              height: 1),
-        ),
-        actions: [
-          TextButton(
-            child: SizedBox(
-              width: 32,
-              height: 32,
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16),
-                          topRight: Radius.circular(16),
-                          bottomLeft: Radius.circular(16),
-                          bottomRight: Radius.circular(16),
-                        ),
-                        color: Color.fromRGBO(45, 53, 162, 1),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 11,
-                    left: 11,
-                    child: Container(
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 17,
-                    left: 11,
-                    child: Container(
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 11,
-                    left: 17,
-                    child: Container(
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 17,
-                    left: 17,
-                    child: Container(
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                      ),
-                    ),
-                  ),
-                ],
+    ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            labelColor:
+                (themeMode == ThemeMode.dark) ? Colors.white : Colors.black,
+            tabs: const [
+              Tab(
+                text: "Today",
               ),
+              Tab(
+                text: "Tomorrow",
+              ),
+            ],
+          ),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: themeMode == ThemeMode.dark
+                  ? Colors.white
+                  : const Color(0xff2D35A2),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(255, 255, 255, 1),
+          backgroundColor: Theme.of(context).canvasColor,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            "Today Task",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+                color: themeMode == ThemeMode.dark
+                    ? Colors.white
+                    : const Color(0xff2D35A2),
+                fontFamily: 'Nunito',
+                fontSize: 24,
+                letterSpacing:
+                    0 /*percentages not used in flutter. defaulting to zero*/,
+                fontWeight: FontWeight.w600,
+                height: 1),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 40,
+          actions: [
+            TextButton(
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                            bottomLeft: Radius.circular(16),
+                            bottomRight: Radius.circular(16),
+                          ),
+                          color: themeMode == ThemeMode.dark
+                              ? Colors.white
+                              : const Color(0xff2D35A2),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 11,
+                      left: 11,
+                      child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: (themeMode == ThemeMode.dark)
+                              ? const Color.fromRGBO(45, 53, 162, 1)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 17,
+                      left: 11,
+                      child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: (themeMode == ThemeMode.dark)
+                              ? const Color.fromRGBO(45, 53, 162, 1)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 11,
+                      left: 17,
+                      child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: (themeMode == ThemeMode.dark)
+                              ? const Color.fromRGBO(45, 53, 162, 1)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 17,
+                      left: 17,
+                      child: Container(
+                        width: 4,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: (themeMode == ThemeMode.dark)
+                              ? const Color.fromRGBO(45, 53, 162, 1)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const Text(
-                  'Today',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: Color.fromRGBO(32, 48, 79, 1),
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      letterSpacing:
-                          0 /*percentages not used in flutter. defaulting to zero*/,
-                      fontWeight: FontWeight.w600,
-                      height: 1),
-                ),
-                const SizedBox(
-                  height: 60,
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, i) {
-                    return TaskTile(
-                        tileColor: (i == 0)
-                            ? const Color.fromRGBO(45, 53, 162, 1)
-                            : Colors.white,
-                        titleColor: (i == 0)
-                            ? const Color.fromRGBO(255, 255, 255, 1)
-                            : const Color.fromRGBO(32, 48, 79, 1),
-                        descriptionColor: (i == 0)
-                            ? const Color.fromRGBO(255, 255, 255, 1)
-                            : const Color.fromRGBO(183, 183, 183, 1),
-                        taskTitle: data[i]['mainText']!,
-                        taskDescription: data[i]['bottomText']!);
-                  },
-                  itemCount: 4,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      height: 20,
-                    );
-                  },
-                )
-              ],
+              ),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacement(_createRoute(TodayTaskPage(
+                  isGridView: !(widget.isGridView!),
+                )));
+              },
             ),
-          ),
+          ],
+        ),
+        body: TabBarView(
+          children: [
+            TodayScreen(isGridView: widget.isGridView),
+            Container(
+              color: Colors.red,
+            ),
+          ],
         ),
       ),
     );
+  }
+}
+
+Route _createRoute(Widget destination) {
+  return PageRouteBuilder(
+    pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) =>
+        destination,
+    transitionDuration: const Duration(milliseconds: 2500),
+    reverseTransitionDuration: const Duration(milliseconds: 2500),
+    transitionsBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation, Widget child) {
+      return FadeTransition(
+        opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCirc,
+            reverseCurve: Curves.easeOutCirc.flipped),
+        child: child,
+      );
+    },
+  );
+}
+
+class CustomRectTween extends MaterialRectCenterArcTween {
+  CustomRectTween({required this.a, required this.b}) : super(begin: a, end: b);
+  final Rect a, b;
+
+  @override
+  Rect lerp(double t) {
+    final double myCurve = Curves.easeOutCirc.transform(t);
+
+    return Rect.fromLTRB(
+      lerpDouble(a.left, b.left, myCurve),
+      lerpDouble(a.top, b.top, myCurve),
+      lerpDouble(a.right, b.right, myCurve),
+      lerpDouble(a.bottom, b.bottom, myCurve),
+    );
+  }
+
+  double lerpDouble(num a, num b, double t) {
+    return a + (b - a) * t;
   }
 }

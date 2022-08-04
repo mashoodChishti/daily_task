@@ -58,14 +58,16 @@ class _TaskdetailWidgetState extends State<TaskdetailWidget> {
     ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return Scaffold(
       appBar: AppBarWidget(
-          itemsColor: themeMode == ThemeMode.dark
-              ? Colors.white
-              : const Color(0xff2D35A2),
-          titleText: 'Task Detail',
-          buttonItemsColor: (themeMode == ThemeMode.dark)
-              ? const Color.fromRGBO(45, 53, 162, 1)
-              : Colors.white,
-          backgroundColor: Theme.of(context).canvasColor),
+        itemsColor: themeMode == ThemeMode.dark
+            ? Colors.white
+            : const Color(0xff2D35A2),
+        titleText: 'Task Detail',
+        buttonItemsColor: (themeMode == ThemeMode.dark)
+            ? const Color.fromRGBO(45, 53, 162, 1)
+            : Colors.white,
+        backgroundColor: Theme.of(context).canvasColor,
+        action: (){},
+      ),
       body: SafeArea(
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -416,14 +418,15 @@ class _TaskdetailWidgetState extends State<TaskdetailWidget> {
   void openlinksBottomSheet(BuildContext context) {
     TextEditingController _controller = TextEditingController();
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (ctx) => SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   child: TextFormField(
                     keyboardType: TextInputType.name,
                     autofocus: false,

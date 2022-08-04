@@ -10,6 +10,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     required this.titleText,
     required this.buttonItemsColor,
     required this.backgroundColor,
+    required this.action,
   })  : preferredSize = const Size.fromHeight(kToolbarHeight),
         super(key: key);
 
@@ -19,6 +20,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String titleText;
   final Color buttonItemsColor;
   final Color backgroundColor;
+  final Function? action;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            action?.call();
+          },
         ),
       ],
     );

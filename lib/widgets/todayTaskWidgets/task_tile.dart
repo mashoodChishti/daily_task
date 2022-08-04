@@ -52,43 +52,45 @@ class TaskTile extends StatelessWidget {
                 color: Color.fromRGBO(82, 204, 255, 1),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    taskTitle,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: titleColor,
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        letterSpacing:
-                            0 /*percentages not used in flutter. defaulting to zero*/,
-                        fontWeight: FontWeight.w600,
-                        height: 1),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    taskDescription,
-                    textHeightBehavior: const TextHeightBehavior(
-                      applyHeightToFirstAscent: true,
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      taskTitle,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: titleColor,
+                          fontFamily: 'Poppins',
+                          fontSize: 12,
+                          letterSpacing:
+                              0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.w600,
+                          height: 1),
                     ),
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: descriptionColor,
-                        fontFamily: 'Poppins',
-                        fontSize: 10,
-                        letterSpacing:
-                            0 /*percentages not used in flutter. defaulting to zero*/,
-                        fontWeight: FontWeight.normal,
-                        height: 1),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      taskDescription,
+                      textHeightBehavior: const TextHeightBehavior(
+                        applyHeightToFirstAscent: true,
+                      ),
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color: descriptionColor,
+                          fontFamily: 'Poppins',
+                          fontSize: 10,
+                          letterSpacing:
+                              0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.normal,
+                          height: 1),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
