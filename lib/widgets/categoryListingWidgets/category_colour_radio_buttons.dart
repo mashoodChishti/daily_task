@@ -24,7 +24,7 @@ class _CustomRadioWidgetState<T> extends State<CustomRadioWidget<T>> {
   Widget build(BuildContext context) {
     bool isSelected = widget.value == widget.groupValue;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: InkWell(
         onTap: () {
           setState(() {
@@ -44,8 +44,8 @@ class _CustomRadioWidgetState<T> extends State<CustomRadioWidget<T>> {
           ),
           child: Center(
             child: Container(
-              height: 50,
-              width: 50,
+              height: 25,
+              width: 25,
               decoration: ShapeDecoration(
                   shape: const CircleBorder(), gradient: widget.gradient),
             ),

@@ -66,7 +66,7 @@ class _TaskdetailWidgetState extends State<TaskdetailWidget> {
             ? const Color.fromRGBO(45, 53, 162, 1)
             : Colors.white,
         backgroundColor: Theme.of(context).canvasColor,
-        action: (){},
+        action: () {},
       ),
       body: SafeArea(
         child: Container(

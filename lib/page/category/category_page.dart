@@ -177,14 +177,20 @@ class _CategoryPageState extends State<CategoryPage> {
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(150),
+          top: Radius.circular(30),
         ),
       ),
       builder: (ctx) {
-        return BottomSheetCustom(
-          list: list,
-          ctx: ctx,
-          onChanged: _update,
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          child: Wrap(children: <Widget>[
+            BottomSheetCustom(
+              list: list,
+              ctx: ctx,
+              onChanged: _update,
+            ),
+          ]),
         );
       },
     );
