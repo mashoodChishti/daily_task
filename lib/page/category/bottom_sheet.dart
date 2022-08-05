@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 
 class BottomSheetCustom extends StatefulWidget {
   const BottomSheetCustom(
-      {Key? key, required this.list, this.ctx, required this.onChanged})
+      {Key? key, required this.list, this.ctx, required this.onChanged, required this.isEditMode})
       : super(key: key);
   final List<CategoryTile>? list;
   final BuildContext? ctx;
   final ValueChanged<List<CategoryTile>> onChanged;
-
+  final bool isEditMode;
   @override
   State<BottomSheetCustom> createState() => _BottomSheetState();
 }
@@ -32,7 +32,7 @@ class _BottomSheetState extends State<BottomSheetCustom> {
     return SingleChildScrollView(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.4,
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         alignment: Alignment.center,
         color: Colors.transparent,
         child: Center(

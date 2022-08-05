@@ -1,6 +1,8 @@
+import 'package:daily_task/page/category/bottom_sheet.dart';
 import 'package:daily_task/page/category/category_page.dart';
 import 'package:daily_task/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 /// QuickActions represents the horizontal list of rectangular buttons below the header
@@ -8,21 +10,74 @@ import 'package:provider/provider.dart';
 class CategoryListingWidget extends StatelessWidget {
   const CategoryListingWidget({Key? key, required this.list}) : super(key: key);
   final List<CategoryTile> list;
+  void _update(List<CategoryTile> newValue) {}
   @override
   Widget build(BuildContext context) {
     ThemeMode themeMode = Provider.of<ThemeProvider>(context).themeMode;
     return Container(
       constraints: const BoxConstraints(maxHeight: 90.0),
-      child: ListView.separated(
+      child: ListView.builder(
         shrinkWrap: true,
         padding: const EdgeInsets.only(
             left: 0.0, bottom: 20.0, right: 0.0, top: 10.0),
         scrollDirection: Axis.vertical,
         itemBuilder: (context, i) {
-          return _buildAction(list[i].title!, list[i].onTap!, list[i].color!,
-              list[i].gradient!, list[i].description!, themeMode);
+          String categoryTitle = list[i].title!;
+          return Slidable(
+            key: const ValueKey(0),
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              //dismissible: DismissiblePane(onDismissed: () {}),
+              children: [
+                SizedBox(
+                  height: 96,
+                  width: 86,
+                  child: SlidableAction(
+                    onPressed: (context) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(categoryTitle + 'has been deleted'),
+                          action: SnackBarAction(
+                            textColor: themeMode == ThemeMode.dark
+                                ? Colors.grey.shade600
+                                : Colors.white,
+                            label: 'Undo',
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                    },
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
+                    label: 'Delete',
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                SizedBox(
+                  height: 96,
+                  width: 85,
+                  child: SlidableAction(
+                    onPressed: (context) {
+                      _showModalBottomSheet(list, _update, context);
+                    },
+                    backgroundColor: const Color(0xff2D35A2),
+                    foregroundColor: Colors.white,
+                    icon: Icons.edit,
+                    label: 'Edit',
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                ),
+              ],
+            ),
+            child: _buildAction(list[i].title!, list[i].onTap!, list[i].color!,
+                list[i].gradient!, list[i].description!, themeMode),
+          );
         },
-        separatorBuilder: (context, i) => const SizedBox(height: 10.0),
+        // separatorBuilder: (context, i) => const SizedBox(height: 10.0),
         itemCount: list.length,
       ),
     );
@@ -128,115 +183,33 @@ class CategoryListingWidget extends StatelessWidget {
         ), //SizedBox
       ),
     ); //Card
-    // return GestureDetector(
-    //   onTap: action,
-    //   child: Container(
-    //     margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
-    //     width: double.infinity,
-    //     decoration: BoxDecoration(
-    //         color: Colors.white,
-    //         //color: color,
-    //         shape: BoxShape.rectangle,
-    //         borderRadius: BorderRadius.circular(15.0),
-    //         boxShadow: const <BoxShadow>[
-    //           BoxShadow(
-    //               color: Colors.black38,
-    //               blurRadius: 0.5,
-    //               spreadRadius: 0.5,
-    //               offset: Offset(0.0, 1.0)),
-    //         ],
-    //         gradient: gradient),
-    //     child: Stack(
-    //       children: <Widget>[
-    //         Opacity(
-    //           opacity: 0.2,
-    //           child: Align(
-    //             alignment: Alignment.centerRight,
-    //             child: Transform.rotate(
-    //               angle: -3.1428 / 12,
-    //               alignment: Alignment.centerRight,
-    //               child: ClipPath(
-    //                 //clipper: _BackgroundImageClipper(),
-    //                 child: Container(
-    //                   padding: const EdgeInsets.only(
-    //                       bottom: 20.0, right: 10.0, left: 60.0),
-    //                   child: Image(
-    //                     width: 70.0,
-    //                     height: 70.0,
-    //                     image: backgroundImage,
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ), // END BACKGROUND IMAGE
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Container(
-    //               alignment: Alignment.topLeft,
-    //               padding: const EdgeInsets.only(left: 10.0, top: 10.0),
-    //               child: Text(title, style: textStyle),
-    //             ),
-    //             Container(
-    //               alignment: Alignment.topRight,
-    //               padding: const EdgeInsets.only(right: 20.0, top: 10.0),
-    //               child: Text('Upcomming (2)'),
-    //             ),
-    //           ],
-    //         ),
-    //         Container(
-    //           alignment: Alignment.bottomLeft,
-    //           padding: const EdgeInsets.only(top: 65, left: 10),
-    //           child: Row(
-    //             children: [
-    //               Icon(
-    //                 Icons.calendar_month_rounded,
-    //                 color: Colors.white,
-    //                 size: 16.0,
-    //                 semanticLabel: 'Text to announce in accessibility modes',
-    //               ),
-    //               Text('06/12/2022',
-    //                   style: TextStyle(fontSize: 12, color: Colors.white)),
-    //             ],
-    //           ),
-    //         ),
-    //         Container(
-    //           alignment: Alignment.bottomCenter,
-    //           padding: const EdgeInsets.only(top: 65, left: 125),
-    //           child: Row(
-    //             children: [
-    //               Icon(
-    //                 Icons.task_alt_rounded,
-    //                 color: Colors.white,
-    //                 size: 16.0,
-    //                 semanticLabel: 'Text to announce in accessibility modes',
-    //               ),
-    //               Text('Tasks(13)',
-    //                   style: TextStyle(fontSize: 12, color: Colors.white)),
-    //             ],
-    //           ),
-    //         ),
-    //         Container(
-    //           alignment: Alignment.centerRight,
-    //           padding: const EdgeInsets.only(top: 65, left: 220),
-    //           child: Row(
-    //             children: [
-    //               Icon(
-    //                 Icons.done_all_rounded,
-    //                 color: Colors.white,
-    //                 size: 16.0,
-    //                 semanticLabel: 'Text to announce in accessibility modes',
-    //               ),
-    //               Text('Completed (9)',
-    //                   style: TextStyle(fontSize: 12, color: Colors.white)),
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+  }
+
+  _showModalBottomSheet(
+      List<CategoryTile> list, Function update, BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(30),
+        ),
+      ),
+      builder: (ctx) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          child: Wrap(children: <Widget>[
+            BottomSheetCustom(
+              list: list,
+              ctx: ctx,
+              onChanged: _update,
+              isEditMode: true,
+            ),
+          ]),
+        );
+      },
+    );
   }
 }
 

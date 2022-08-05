@@ -183,12 +183,13 @@ class _CategoryPageState extends State<CategoryPage> {
       builder: (ctx) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.4,
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Wrap(children: <Widget>[
             BottomSheetCustom(
               list: list,
               ctx: ctx,
               onChanged: _update,
+              isEditMode: false,
             ),
           ]),
         );
