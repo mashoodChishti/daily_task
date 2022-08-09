@@ -170,7 +170,6 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
     );
   }
-
   _showModalBottomSheet(List<CategoryTile> list, Function update) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -197,7 +196,6 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 }
-
 class CategoryTile {
   String? title;
   String? description;
