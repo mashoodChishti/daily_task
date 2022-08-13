@@ -63,6 +63,11 @@ class _CategoryPageState extends State<CategoryPage> {
     setState(() => list = newValue);
   }
 
+  void _updateTile(List<CategoryTile> newValue, CategoryTile tile, int index) {
+    newValue[index] = tile;
+    setState(() => list = newValue);
+  }
+
   // addCategory() {
   //   list.add(CategoryTile(
   //     title: "Next Week",
@@ -140,6 +145,7 @@ class _CategoryPageState extends State<CategoryPage> {
           children: [
             Expanded(
               child: CategoryListingWidget(
+                updateList: _updateTile,
                 list: list,
               ),
             ),
@@ -170,6 +176,7 @@ class _CategoryPageState extends State<CategoryPage> {
       ),
     );
   }
+
   _showModalBottomSheet(List<CategoryTile> list, Function update) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -188,7 +195,6 @@ class _CategoryPageState extends State<CategoryPage> {
               list: list,
               ctx: ctx,
               onChanged: _update,
-              isEditMode: false,
             ),
           ]),
         );
@@ -196,6 +202,7 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 }
+
 class CategoryTile {
   String? title;
   String? description;

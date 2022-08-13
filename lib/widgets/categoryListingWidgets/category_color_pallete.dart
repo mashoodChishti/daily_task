@@ -19,3 +19,38 @@ const redGradient = LinearGradient(colors: <Color>[
   0.6,
   0.8
 ], begin: Alignment.bottomRight, end: Alignment.topLeft);
+const orangePurpleGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Colors.purple, Colors.orange]);
+const greenGradient = LinearGradient(
+  colors: [Color(0xff5bb85f), Color(0xffaddbaf)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+const yellowGradient = LinearGradient(
+  colors: [Color(0xffFBB034), Color(0xffFABB34)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+const orangeGradient = LinearGradient(
+  colors: [Color(0xffeb8c00), Color(0xffffdfb1)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+const pinkGradient = LinearGradient(
+  colors: [Color(0xffbe3ed4), Color(0xfffcdbe6)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+
+const greyGradient = LinearGradient(
+  colors: [Color(0xff5d5d5d), Color(0xffe8e8e8)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);
+const brownGradient = LinearGradient(
+  colors: [Color(0xff4a342c), Color(0xffe2d3ce)],
+  begin: Alignment.bottomRight,
+  end: Alignment.topLeft,
+);

@@ -23,6 +23,7 @@ class TaskdetailWidget extends StatefulWidget {
 }
 
 class _TaskdetailWidgetState extends State<TaskdetailWidget> {
+  // ignore: unused_field
   List<File> _files = [];
   final List<String> _urls = [];
   @override

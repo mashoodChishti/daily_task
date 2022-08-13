@@ -1,26 +1,29 @@
 import 'package:daily_task/page/category/category_page.dart';
-import 'package:daily_task/page/taskDetail/task_detail_page.dart';
-import 'package:daily_task/widgets/categoryListingWidgets/category_color_pallete.dart';
-import 'package:daily_task/widgets/categoryListingWidgets/category_colour_radio_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BottomSheetCustom extends StatefulWidget {
-  const BottomSheetCustom({
-    Key? key,
-    required this.list,
-    this.ctx,
-    required this.onChanged,
-  }) : super(key: key);
+import '../../widgets/categoryListingWidgets/category_color_pallete.dart';
+import '../../widgets/categoryListingWidgets/category_colour_radio_buttons.dart';
+import '../taskDetail/task_detail_page.dart';
+
+class CustomBottomSheetEdit extends StatefulWidget {
+  const CustomBottomSheetEdit(
+      {Key? key,
+      required this.list,
+      this.ctx,
+      required this.onEdit,
+      required this.index})
+      : super(key: key);
   final List<CategoryTile>? list;
   final BuildContext? ctx;
-  final ValueChanged<List<CategoryTile>> onChanged;
+  final void Function(List<CategoryTile>, CategoryTile, int) onEdit;
+  final int index;
 
   @override
-  State<BottomSheetCustom> createState() => _BottomSheetState();
+  State<CustomBottomSheetEdit> createState() => _CustomBottomSheetEditState();
 }
 
-class _BottomSheetState extends State<BottomSheetCustom> {
+class _CustomBottomSheetEditState extends State<CustomBottomSheetEdit> {
   int color = 0;
   ValueChanged<int> _valueChangedHandler() {
     return (value) => setState(() => color = value);
@@ -43,6 +46,7 @@ class _BottomSheetState extends State<BottomSheetCustom> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
+              initialValue: list[widget.index].title,
               onChanged: ((value) {
                 setState(() {
                   catName = value;
@@ -64,6 +68,7 @@ class _BottomSheetState extends State<BottomSheetCustom> {
               height: 20,
             ),
             TextFormField(
+              initialValue: list[widget.index].description,
               onChanged: ((value) {
                 setState(() {
                   catDescription = value;
@@ -155,7 +160,7 @@ class _BottomSheetState extends State<BottomSheetCustom> {
             ),
             ElevatedButton(
               onPressed: () {
-                list.add(CategoryTile(
+                final tile = CategoryTile(
                   title: catName,
                   color: getColor(color),
                   gradient: getGradient(color),
@@ -166,11 +171,11 @@ class _BottomSheetState extends State<BottomSheetCustom> {
                         ));
                   },
                   description: catDescription,
-                ));
+                );
                 Get.back();
-                widget.onChanged(list);
+                widget.onEdit(list, tile, widget.index);
               },
-              child: const Text("Add Category"),
+              child: const Text("Edit Category"),
             ),
           ],
         )),
@@ -187,6 +192,16 @@ getColor(int color) {
       return Colors.red;
     case 2:
       return Colors.purple;
+    case 3:
+      return Colors.orange;
+    case 4:
+      return Colors.green;
+    case 5:
+      return Colors.yellow;
+    case 6:
+      return Colors.pink;
+    case 7:
+      return Colors.brown;
     default:
       return Colors.blue;
   }
@@ -200,6 +215,16 @@ getGradient(int color) {
       return redGradient;
     case 2:
       return purpleGradient;
+    case 3:
+      return orangePurpleGradient;
+    case 4:
+      return greenGradient;
+    case 5:
+      return yellowGradient;
+    case 6:
+      return pinkGradient;
+    case 7:
+      return brownGradient;
     default:
       return blueGradient;
   }

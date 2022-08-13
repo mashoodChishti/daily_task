@@ -29,7 +29,7 @@ class _TodayTaskPageState extends State<TodayTaskPage> {
                 text: "Today",
               ),
               Tab(
-                text: "Tomorrow",
+                text: "Upcoming",
               ),
             ],
           ),
@@ -154,9 +154,7 @@ class _TodayTaskPageState extends State<TodayTaskPage> {
         body: TabBarView(
           children: [
             TodayScreen(isGridView: widget.isGridView),
-            Container(
-              color: Colors.red,
-            ),
+            TodayScreen(isGridView: widget.isGridView),
           ],
         ),
       ),
@@ -169,8 +167,8 @@ Route _createRoute(Widget destination) {
     pageBuilder: (BuildContext context, Animation<double> animation,
             Animation<double> secondaryAnimation) =>
         destination,
-    transitionDuration: const Duration(milliseconds: 2500),
-    reverseTransitionDuration: const Duration(milliseconds: 2500),
+    transitionDuration: const Duration(milliseconds: 1000),
+    reverseTransitionDuration: const Duration(milliseconds: 1000),
     transitionsBuilder: (BuildContext context, Animation<double> animation,
         Animation<double> secondaryAnimation, Widget child) {
       return FadeTransition(
