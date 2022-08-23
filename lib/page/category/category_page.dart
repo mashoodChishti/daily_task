@@ -1,11 +1,11 @@
 import 'package:daily_task/page/category/bottom_sheet.dart';
-import 'package:daily_task/page/taskDetail/task_detail_page.dart';
 import 'package:daily_task/provider/theme_provider.dart';
-import 'package:daily_task/widgets/categoryListingWidgets/category_color_pallete.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_listing_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/category_tile_model.dart';
+import '../../util/data_generator.dart';
 
 class CategoryPage extends StatefulWidget {
   final List<CategoryTile>? list;
@@ -19,66 +19,8 @@ class CategoryPage extends StatefulWidget {
   State<CategoryPage> createState() => _CategoryPageState();
 }
 
-List<CategoryTile> list = [
-  CategoryTile(
-    title: "Today",
-    color: Colors.blue,
-    gradient: blueGradient,
-    onTap: () {
-      Get.to(() => const TaskdetailWidget(
-            title: "today",
-            description: "Today's tasks",
-          ));
-    },
-    description: "Today's tasks",
-  ),
-  CategoryTile(
-    title: "Tomorrow",
-    color: Colors.purple,
-    gradient: purpleGradient,
-    onTap: () {
-      Get.to(() => const TaskdetailWidget(
-            title: "Tommorow",
-            description: "Tommorow's tasks",
-          ));
-    },
-    description: "Tomorrow's tasks",
-  ),
-  CategoryTile(
-    title: "Next Week",
-    color: Colors.red,
-    gradient: redGradient,
-    onTap: () {
-      Get.to(() => const TaskdetailWidget(
-            title: 'Next Week',
-            description: "Next week's tasks",
-          ));
-    },
-    description: "Next week's tasks",
-  ),
-];
-
 class _CategoryPageState extends State<CategoryPage> {
-  void _update(List<CategoryTile> newValue) {
-    setState(() => list = newValue);
-  }
-
-  void _updateTile(List<CategoryTile> newValue, CategoryTile tile, int index) {
-    newValue[index] = tile;
-    setState(() => list = newValue);
-  }
-
-  // addCategory() {
-  //   list.add(CategoryTile(
-  //     title: "Next Week",
-  //     color: Colors.red,
-  //     gradient: redGradient,
-  //     onTap: () {
-  //       Get.to(() => const TaskdetailWidget());
-  //     },
-  //     description: "Next week's tasks",
-  //   ));
-  // }
+  List<CategoryTile>? list = getCategoryTileList();
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +88,7 @@ class _CategoryPageState extends State<CategoryPage> {
             Expanded(
               child: CategoryListingWidget(
                 updateList: _updateTile,
-                list: list,
+                list: list!,
               ),
             ),
             Container(
@@ -167,7 +109,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             ? Colors.grey.shade900
                             : const Color(0xff2D35A2)),
                   ),
-                  onPressed: () => {_showModalBottomSheet(list, _update)},
+                  onPressed: () => {_showModalBottomSheet(list!, _update)},
                   child: const Text('Create Category',
                       style: TextStyle(color: Colors.white, fontSize: 16))),
             )
@@ -187,40 +129,32 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
       ),
       builder: (ctx) {
-        return Container(
-          height: MediaQuery.of(context).size.height * 0.4,
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          child: Wrap(children: <Widget>[
-            BottomSheetCustom(
-              list: list,
-              ctx: ctx,
-              onChanged: _update,
-            ),
-          ]),
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: WidgetsBinding.instance.window.viewInsets.bottom,
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: Wrap(children: <Widget>[
+              BottomSheetCustom(
+                list: list,
+                ctx: ctx,
+                onChanged: _update,
+              ),
+            ]),
+          ),
         );
       },
     );
   }
-}
 
-class CategoryTile {
-  String? title;
-  String? description;
-  String? image;
-  Color? color;
-  String? date;
-  String? tasks;
-  String? completed;
-  LinearGradient? gradient;
-  Function()? onTap;
-  CategoryTile(
-      {this.title,
-      this.description,
-      this.image,
-      this.color,
-      this.date,
-      this.tasks,
-      this.completed,
-      this.gradient,
-      this.onTap});
+  void _update(List<CategoryTile> newValue) {
+    setState(() => list = newValue);
+  }
+
+  void _updateTile(List<CategoryTile> newValue, CategoryTile tile, int index) {
+    newValue[index] = tile;
+    setState(() => list = newValue);
+  }
 }

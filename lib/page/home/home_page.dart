@@ -4,12 +4,17 @@ import 'package:daily_task/widgets/dashboardWidgets/dashboard_activities_section
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/category_tile_model.dart';
+import '../../util/data_generator.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
+List<CategoryTile> list = getCategoryTileList();
 
 class _HomePageState extends State<HomePage> {
   @override

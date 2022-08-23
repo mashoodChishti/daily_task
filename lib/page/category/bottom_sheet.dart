@@ -1,9 +1,10 @@
-import 'package:daily_task/page/category/category_page.dart';
 import 'package:daily_task/page/taskDetail/task_detail_page.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_color_pallete.dart';
 import 'package:daily_task/widgets/categoryListingWidgets/category_colour_radio_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../models/category_tile_model.dart';
 
 class BottomSheetCustom extends StatefulWidget {
   const BottomSheetCustom({

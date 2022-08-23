@@ -1,10 +1,12 @@
 import 'package:daily_task/page/category/category_page.dart';
 import 'package:daily_task/provider/theme_provider.dart';
+import 'package:daily_task/util/data_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/category_tile_model.dart';
 import '../../page/category/bottom_sheet_edit.dart';
 
 /// QuickActions represents the horizontal list of rectangular buttons below the header
@@ -22,6 +24,7 @@ class CategoryListingWidget extends StatefulWidget {
 }
 
 CategoryTile? tile;
+List<CategoryTile> list = getCategoryTileList();
 
 class _CategoryListingWidgetState extends State<CategoryListingWidget> {
   List<CategoryTile> _deleteTile(List<CategoryTile> newValue, int index) {
@@ -229,14 +232,17 @@ class _CategoryListingWidgetState extends State<CategoryListingWidget> {
           padding: EdgeInsets.only(
             bottom: WidgetsBinding.instance.window.viewInsets.bottom,
           ),
-          child: Wrap(children: <Widget>[
-            CustomBottomSheetEdit(
-              list: list,
-              ctx: ctx,
-              onEdit: widget.updateList,
-              index: i,
-            ),
-          ]),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: Wrap(children: <Widget>[
+              CustomBottomSheetEdit(
+                list: list,
+                ctx: ctx,
+                onEdit: widget.updateList,
+                index: i,
+              ),
+            ]),
+          ),
         );
       },
     );

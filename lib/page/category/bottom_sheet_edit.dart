@@ -1,7 +1,7 @@
-import 'package:daily_task/page/category/category_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/category_tile_model.dart';
 import '../../widgets/categoryListingWidgets/category_color_pallete.dart';
 import '../../widgets/categoryListingWidgets/category_colour_radio_buttons.dart';
 import '../taskDetail/task_detail_page.dart';

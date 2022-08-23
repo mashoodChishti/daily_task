@@ -1,4 +1,4 @@
-import 'package:daily_task/page/home/home_page.dart';
+import 'package:daily_task/page/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,7 +155,7 @@ class _OnBoardingScreen1State extends State<OnBoardingScreen1> {
                   onPressed: () async {
                     final pref = await SharedPreferences.getInstance();
                     pref.setBool('showHome', true);
-                    Get.to(() => const HomePage());
+                    Get.to(() => const LoginScreen());
                   },
                   style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
